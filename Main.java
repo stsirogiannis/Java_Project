@@ -107,7 +107,7 @@ public class Main {
         
         double enrollCost;
         int discountRate = 0;                                                          // αρχικοποιηση discountRate με default τιμη
-        int extraDiscountRate=0;
+        int extraDiscountRate = 0;
         
         if (athlete.getIsProfessional() == false) {                                  //το αντικειμενο του athlete ειναι δηλωμενο ως "athlete"
 			enrollCost = 50;                                                        //υπολογισμος κοστους εγγραφης  που εξαρταται απο την ιδιοτητα ή μη του επαγγελματια
@@ -138,28 +138,35 @@ public class Main {
         Enrollment enrollment= new Enrollment(userCount, athlete, date, enrollCost, discountRate);      //δημιουργια αντικειμενου enrollment
         enrollmentList.add(enrollment);                                                   //προσθηκη του αντικειμενου enrollment στην arraylist
         
-       double enrollTotalPrice = enrollment.calculateTotalPrice();                         //καταχωρηση του συνολικου ποσου της εγγραφης στην αντιστοιχη μεταβλητη μεσω της μεθοδου της διεπαφης Pricelist απο την Enrollment 
-       enrollTotalPrice= enrollTotalPrice-(extraDiscountRate/100.0)* enrollTotalPrice;
+        double enrollTotalPrice = enrollment.calculateTotalPrice();                         //καταχωρηση του συνολικου ποσου της εγγραφης στην αντιστοιχη μεταβλητη μεσω της μεθοδου της διεπαφης Pricelist απο την Enrollment 
+        System.out.println("enrollTotalPrice= "+enrollTotalPrice);
+        System.out.println("extraDiscountRate: "+extraDiscountRate);
         
-        System.out.println("Please enter your payment method");
+        enrollTotalPrice= enrollTotalPrice-(extraDiscountRate/100.0)* enrollTotalPrice; 
+        System.out.println("enrollTotalPrice: "+enrollTotalPrice);
+        
+        /*System.out.println("Please enter your payment method");
         String paymentMethod= stringScanner.next();
         
        
         Payment payment= new Payment (userCount, date, paymentMethod, null, enrollment, enrollTotalPrice);
-        System.out.println("Name: " +user.getName() + "\n"
+        paymentList.add(payment);)
+      
+		System.out.println("Name: " +user.getName() + "\n"
         		          +"Surname: "+user.getSurname()+ "\n"
         		          +"User code: "+user.getUserCount()+"\n"
         		          +"Gender: " +user.getGender()+ "\n"
         		          +"Enrollment date: "+enrollment.getDate()+ "\n"
         		          +"Enrollment cost: "+payment.calculateTotalPrice());
-        		          //+"Enrollment cost: " +payment.getTotalCost());
+        		          +"Enrollment cost: " +payment.getTotalCost()); */
+        				  
         		         
 		
 		
 		
 		
 		userCount++;
-
+		
 	}
 
 }
