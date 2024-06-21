@@ -1,4 +1,16 @@
 
+Update 22/6
+Στη γραμμη 29 θελω userCountField και στη γραμμη 27 λειπουν userCount, professional, experience Lbl
+Ερωτηση: μηπως το athleteList πρεπει να γινει UserList που ειναι υποκλαση καθως αντικαθιστα τη zoolist απο τον κωδικα της βλαμμενης
+Αλλαξα γραμμη 55, 73-76
+Κοιτα στη mainSceneCreator γραμμη 37 εχεις 3 επαναληψεις
+
+
+
+
+
+
+
 update 20/6
 Αλλαξα το ονομα κωδικου της trainingProgram σε TPCode
 
