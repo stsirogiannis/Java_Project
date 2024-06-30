@@ -272,10 +272,15 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
         monthlyCostColumn.setCellValueFactory(new PropertyValueFactory<>("monthlyCost"));
         subscriptionTableView.getColumns().add(monthlyCostColumn);
         
+        TableColumn<Payment, Double> totalCostColumn= new TableColumn<>("Συνολικό Κόστος");
+        totalCostColumn.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
+        		
+        
         subscriptionTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectedSubscription = newValue;
         });
        
+        
 	}
 
 
