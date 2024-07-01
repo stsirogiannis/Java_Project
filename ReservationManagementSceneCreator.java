@@ -4,10 +4,12 @@ import gr.unipi.core.Athlete;
 import gr.unipi.core.Subscription;
 import gr.unipi.core.TrainingProgram;
 import gr.unipi.core.TrainingProgramReservation;
+import gr.unipi.core.User;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
@@ -15,13 +17,15 @@ import javafx.scene.layout.GridPane;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReservationManagementSceneCreator extends SceneCreator implements EventHandler<MouseEvent> {
-
+	
+	private int TPCount=0;
     private String TPRCode; //unique user code
     static ArrayList<TrainingProgramReservation> reservationList;
-    ArrayList<Athlete> athleteList = AthleteManagementSceneCreator.athleteList;
-    ArrayList<Subscription> subscriptionList = SubscriptionManagementSceneCreator.subscriptionList;
+    static ArrayList<Athlete> athleteList = AthleteManagementSceneCreator.athleteList;
+    static ArrayList<Subscription> subscriptionList = SubscriptionManagementSceneCreator.subscriptionList;
     // Flow Pane
     FlowPane buttonFlowPane;
     // Grid Panes
@@ -29,15 +33,15 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
     // Second Scene buttons
     Button newReservationBtn, cancelReservationBtn, backBtn;
     // Second scene labels
-    Label reservationCodeLbl, reservationDateLbl, userCountLbl;
+    Label TPCountLbl, reservationDateLbl, userCountLbl;
     // Second scene TextFields
-    TextField TPRCodeField, reservationDateField, userCountField;
+    TextField TPCountField, reservationDateField, userCountField;
     // Radio Buttons
     //RadioButton
     //ToggleGroup
     // TableView
     TableView<TrainingProgramReservation> reservationTableView;
-
+    
     public ReservationManagementSceneCreator(double width, double height) {
         super(width, height);
         // Initialize fields
@@ -47,12 +51,12 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         // buttonFlowPane
         buttonFlowPane = new FlowPane();
         // Labels
-        reservationCodeLbl = new Label("Κωδικός κράτησης:");
+        TPCountLbl = new Label("Κωδικός Προγράμματος Προπόνησης:");
         userCountLbl = new Label("Κωδικός Αθλητή:");
         reservationDateLbl = new Label("Ημερομηνία Κράτησης:");
         // Fields
-        TPRCodeField = new TextField();
-        TPRCodeField.setEditable(false);
+        TPCountField = new TextField();
+        TPCountField.setEditable(false);
         userCountField = new TextField();
         reservationDateField = new TextField();
         // Buttons
@@ -75,8 +79,8 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         inputFieldsPane.setAlignment(Pos.TOP_RIGHT);
         inputFieldsPane.setVgap(10);
         inputFieldsPane.setHgap(10);
-        inputFieldsPane.add(reservationCodeLbl, 0, 0);
-        inputFieldsPane.add(TPRCodeField, 1, 0);
+        inputFieldsPane.add(TPCountLbl, 0, 0);
+        inputFieldsPane.add(TPCountField, 1, 0);
         inputFieldsPane.add(userCountLbl, 0, 1);
         inputFieldsPane.add(userCountField, 1, 1);
         inputFieldsPane.add(reservationDateLbl, 0, 2);
@@ -99,7 +103,15 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         reservationTableView.getColumns().add(TPRCodeColumn);
         TPRCodeColumn.setPrefWidth(130);
 
-
+       /* TableColumn<TrainingProgramReservation, Integer> userCountColumn = new TableColumn<>("Κωδικός Αθλητή");
+        userCountColumn.setCellValueFactory(new PropertyValueFactory<>("athlete.getUserCount()"));
+        reservationTableView.getColumns().add(userCountColumn);
+        userCountColumn.setPrefWidth(130);
+        
+        TableColumn<TrainingProgramReservation, Integer> TPCountColumn = new TableColumn<>("Κωδικός Προγράμματος Προπόνησης");
+        TPCountColumn.setCellValueFactory(new PropertyValueFactory<>("Subscription.getTrainingProgram().getTPCount()"));
+        reservationTableView.getColumns().add(TPCountColumn);
+        TPCountColumn.setPrefWidth(130);*/
 
     }
 
@@ -110,7 +122,8 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 
     @Override
     public void handle(MouseEvent event) {
-
+    	
+    	TrainingProgram selectedTrainingProgram=null;
         Athlete selectedAthlete = null;
         if (event.getSource() == backBtn) {
             App.primaryStage.setTitle("Διαχείριση Αθλητικών Ακαδημιών");
@@ -137,8 +150,22 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
                         break;
                     }
                 }
+                
+         /*      // for(TrainingProgram trainingProgram: )
                 for (Subscription subscription : subscriptionList) {
-                    if (Subscription.getTrainingProgram().getTPCount() > 0);{
+                	TrainingProgram trainingProgram = Subscription.getTrainingProgram();
+                    if (Subscription.getTrainingProgram().getTPCount() > 0){
+                    	TPCount = Subscription.getTrainingProgram().getTPCount();
+                    	selectedTrainingProgram= trainingProgram;
+                        hasTP = true;
+                        break;
+                    }
+                }*/
+
+                for (Subscription subscription : subscriptionList) {
+                    TrainingProgram trainingProgram = Subscription.getTrainingProgram();
+                    if (trainingProgram.getTPCount() > 0) {
+                        selectedTrainingProgram = trainingProgram;
                         hasTP = true;
                         break;
                     }
@@ -158,8 +185,9 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
                 }
                 else{
                     TPRCode = Subscription.getTrainingProgram().getTPCount() + "_" + userCount + "_" + "<"+ dateString+ ">";
-                    //createTrainingProgramReservation(TPRCode, selectedAthlete, trainingProgram, date);
+                    createTrainingProgramReservation(TPRCode, selectedAthlete, selectedTrainingProgram, dateString);
                 }
+              
             } catch (NumberFormatException e) {
                 Alert alertType = new Alert(Alert.AlertType.ERROR);
                 alertType.setTitle("Μη έγκυρη εισαγωγή");
@@ -169,53 +197,49 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
             }
 
         }
+     
 
         if (event.getSource() == cancelReservationBtn) {
 
 
         }
+       
+        // Get Selected reservation from TableView, get the values from the selection and set them to the fields
+        if (event.getSource() == reservationTableView) {
+            TrainingProgramReservation selectedReservation = reservationTableView.getSelectionModel().getSelectedItem();
+            if (selectedReservation != null) {
+               // userCountField.setText(String.valueOf(selectedReservation.athlete.getUserCount()));
+                TPRCode = String.valueOf(selectedReservation.getTPRCode());
+               // TPCountField.setText(String.valueOf(selectedReservation.getTrainingProgram().getTPCount()));
 
-        // Get Selected Athlete from TableView, get the values from the selection and set them to the fields
-       /* if (event.getSource() == reservationTableView) {
-            TrainingProgramReservation selectedReservation = athleteTableView.getSelectionModel().getSelectedItem();
-            if (selectedAthlete != null) {
-                userCountField.setText(String.valueOf(selectedAthlete.getUserCount()));
-                nameField.setText(selectedAthlete.getName());
-                surnameField.setText(selectedAthlete.getSurname());
-
-                //check if the gender is male or female
-                char gender = selectedAthlete.getGender();
-                if (gender == 'Ά') {
-                    maleRadioBtn.setSelected(true);
-                } else if (gender == 'Γ') {
-                    femaleRadioBtn.setSelected(true);
-                }
-
-                contactInfoField.setText(selectedAthlete.getContactInfo());
-                birthDateField.setText(selectedAthlete.getBirthDate());
-
-                //check if the athlete is professional or not
-                if (selectedAthlete.getIsProfessional()) {
-                    professionalYesRadioBtn.setSelected(true);
-                } else {
-                    professionalNoRadioBtn.setSelected(true);
-                }
-
-                experienceField.setText(String.valueOf(selectedAthlete.getExperience()));
             }
+                
+           
         }
+     
+            tableSync();
+           // clearTextFields();
     }
-    */
+	       
+
+// sync reservationList objects with objects in TableView
+     public void tableSync() {
+         List<TrainingProgramReservation> items = reservationTableView.getItems();
+         items.clear();
+         for (Object res : reservationList) {
+             if (res instanceof TrainingProgramReservation) {
+                 items.add((TrainingProgramReservation) res);
+             }
+         }
+     }
 
 
+    
 
-
+    public void createTrainingProgramReservation(String TPRCode, Athlete selectedAthlete, TrainingProgram selectedTrainingProgram, String dateString) {
+        TrainingProgramReservation trainingProgramReservation = new TrainingProgramReservation(TPRCode, selectedAthlete, selectedTrainingProgram, dateString);
+        reservationList.add(trainingProgramReservation);
     }
-
-    public void createTrainingProgramReservation(String TPRCode, Athlete athlete, TrainingProgram trainingProgram, String date) {
-        TrainingProgramReservation trainingProgramReservation = new TrainingProgramReservation(TPRCode, athlete, trainingProgram, date);
-    }
-
 
 
 
