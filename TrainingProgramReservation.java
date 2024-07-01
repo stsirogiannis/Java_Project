@@ -1,4 +1,4 @@
-package e23178_e23009;
+package gr.unipi.core;
 
 
 public class TrainingProgramReservation {
@@ -6,16 +6,16 @@ public class TrainingProgramReservation {
 	
 			//δηλωση των πεδιων της κλασης ως private
 	private String TPRCode;  //κωδικος trainingProgramReservation
-	private Athlete athlete;        //αθλητης
+	public Athlete athlete;        
 	private TrainingProgram trainingProgram;       
-	private String date;     //ημε/νια κρατησης
+	private String dateString;     
 	
 	//ορισμος constructor με παραμετρους τα πεδια της κλασης 
-	TrainingProgramReservation (String TPRCode, Athlete athlete, TrainingProgram trainingProgram, String date){
+	public TrainingProgramReservation (String TPRCode, Athlete athlete, TrainingProgram trainingProgram, String dateString){
 		this.setTPRCode(TPRCode);
 		this.setAthlete(athlete);
 		this.setTrainingProgram(trainingProgram);
-		this.setDate(date);
+		this.setDateString(dateString);
 	}
 	
 	//ορισμος μεθοδων getters και setters για τη θεση και την ανακτηση των τιμων της
@@ -43,12 +43,14 @@ public class TrainingProgramReservation {
 	}
 	
 	
-	public void setDate(String date) {
-		this.date=date;
+	public void setDateString(String dateString) {
+		this.dateString=dateString;
 	}
-	public String getDate() {
-		return this.date;
+	public String getDateString() {
+		return this.dateString;
 	}
+
+
 
 
 
