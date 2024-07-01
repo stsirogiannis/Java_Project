@@ -47,11 +47,11 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
 	private double totalCost=0.0;
 	//private double extraDiscountRate=0.0;
 	//private double discountRate=0.0;
-	ArrayList <Subscription> subscriptionList;
+	static ArrayList <Subscription> subscriptionList;
     ArrayList<Athlete> athleteList;
     ArrayList<Payment> paymentList;
     ArrayList<Enrollment> enrollmentList;
-    ArrayList<TrainingProgram> trainingProgramList;
+    static ArrayList<TrainingProgram> trainingProgramList;
 	private Sport sport;
     private Facility facility;
     private Coach coach;
