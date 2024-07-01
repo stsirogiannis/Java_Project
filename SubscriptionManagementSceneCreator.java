@@ -51,6 +51,7 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
     ArrayList<Athlete> athleteList;
     ArrayList<Payment> paymentList;
     ArrayList<Enrollment> enrollmentList;
+    ArrayList<TrainingProgram> trainingProgramList;
 	private Sport sport;
     private Facility facility;
     private Coach coach;
@@ -561,6 +562,7 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
 	}
 	private void createTrainingProgram(int TPCount,Sport sport,Facility facility,Coach coach, int minExperience, boolean weeklyReservation, char gender, int minDuration, ComboBox<String> dayComboBox) {
 		trainingProgram= new TrainingProgram(TPCount, sport, facility, coach, minExperience, weeklyReservation, gender, minDuration, dayComboBox);
+		trainingProgramList.add(trainingProgram);
 	}
     
 	private void createSubscription(String subCode, Athlete selectedAthlete, TrainingProgram trainingProgram,double monthlyCost) {
@@ -582,7 +584,6 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
 	
 }	
 	
-	
 
 
 
@@ -607,67 +608,4 @@ public class SubscriptionManagementSceneCreator extends SceneCreator implements 
 
 
 
-
-
-
-
-
-
-	/*System.out.println("Sport Name: ");
-	String sportName= stringScanner.next();
-	System.out.println("Only professional access: (yes/no)");
-	boolean professionalAccess;
-	do {
-    	response=stringScanner.next();
-      	if(response.equals("yes") || response.equals("no")) {
-      		if(response.equals("no")) {
-      			professionalAccess=false;
-      		}else {
-      			professionalAccess=true;
-      		}
-      		break;
-      	}
-      	else {
-      		System.out.println("invalid response, try again");
-      	}
-   }while(true);                                                        // συνεχεια του looping μεχρι την καταχωρηση μιας εγκυρης απαντησης
-   Sport sport = new Sport(sportName, professionalAccess);
-   sportList.add(sport);
-   
-   
-   
-   ArrayList<Facility> facilityList= new ArrayList <Facility>();
-   System.out.println("Facility name: ");
-   String facilityName= stringScanner.next();
-   System.out.println("Max Capacity of participants: ");
-   int maxCapacity=0;
-   try {
-	   maxCapacity= intScanner.nextInt();
-   }catch (Exception e) {
-	   System.out.println("Please enter a number: ");
-   }
-   Facility facility= new Facility(facilityName, maxCapacity);
-   facilityList.add(facility);
-   
-   
-   
-   ArrayList <Coach> coachList = new ArrayList<Coach>();
-   System.out.println("The number of Coach's degrees is: ");
-   int degrees=0;
-   try {
-	   degrees= intScanner.nextInt();
-   }catch(Exception e) {
-	   System.out.println("Please enter a number");
-   }
-   Coach coach= new Coach(userCount, user.getName(), user.getSurname(), user.getGender(), user.getBirthDate(), user.getContactInfo(), sport, degrees);
-   coachList.add(coach); 
-   
-   
-   
-	
-	
-	subCode++;*/
-	
-	
-	
 
