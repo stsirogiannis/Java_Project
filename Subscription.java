@@ -5,12 +5,12 @@ public class Subscription implements Pricelist{
 
 		private String subCode;  
 		private Athlete athlete;   
-		private static TrainingProgram trainingProgram;
+		private static TrainingProgram selectedTrainingProgram;
 		private double monthlyCost;
-        public Subscription(String subCode, Athlete athlete, TrainingProgram trainingProgram, double monthlyCost){
+        public Subscription(String subCode, Athlete athlete, TrainingProgram selectedTrainingProgram, double monthlyCost){
 			this.setSubCode(subCode);
 			this.setAthlete(athlete);
-			this.setTrainingProgram(trainingProgram);
+			this.setSelectedTrainingProgram(selectedTrainingProgram);
 			this.setMonthlyCost (monthlyCost);
 		}
 		
@@ -28,8 +28,12 @@ public class Subscription implements Pricelist{
 			return this.athlete;
 		}
 		
-		public void setTrainingProgram(TrainingProgram trainingProgram) {
-			this.trainingProgram=trainingProgram;
+		public void setSelectedTrainingProgram(TrainingProgram selectedTrainingProgram) {
+			this.selectedTrainingProgram=selectedTrainingProgram;
+		}
+		
+		public static TrainingProgram getSelectedTrainingProgram() {
+			return selectedTrainingProgram;
 		}
 		
 		public void setMonthlyCost(double monthlyCost) {
@@ -39,20 +43,16 @@ public class Subscription implements Pricelist{
 			return this.monthlyCost;
 		}
 
-		public Subscription(TrainingProgram trainingProgram) {
-			this.trainingProgram = trainingProgram;
-		}
-
-		public static TrainingProgram getTrainingProgram() {
-			return trainingProgram;
-		}
-
-		
 
 		@Override
 		public double calculateTotalPrice() {          //χρηση μεθοδου override για την υλοποιηση της διεπαφης που χρησιμοποιει τη μεθοδο calculateTotalPrice για τον υπολογισμο του χρονικου κοστους
-			return monthlyCost*12;
+			return monthlyCost;
 		}
+
+		public int getUserCount() {
+			return athlete.getUserCount();
+		}
+
 }	
-		
+
 		
