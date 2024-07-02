@@ -1,5 +1,6 @@
 package gr.unipi.gui;
 
+
 import gr.unipi.core.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -15,8 +16,9 @@ import java.util.List;
 
 public class ReservationManagementSceneCreator extends SceneCreator implements EventHandler<MouseEvent> {
 
-    private int TPCount=0;
+    private int TPCount;
     private String TPRCode; //unique user code
+    private String dateString;
     static ArrayList<TrainingProgramReservation> reservationList;
     static ArrayList<Athlete> athleteList = AthleteManagementSceneCreator.athleteList;
     static ArrayList<Subscription> subscriptionList = SubscriptionManagementSceneCreator.subscriptionList;
@@ -51,7 +53,7 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         reservationDateLbl = new Label("Ημερομηνία Κράτησης: (yyyyMMdd)");
         // Fields
         TPCountField = new TextField();
-        TPCountField.setEditable(false);
+        // TPCountField.setEditable(false);
         userCountField = new TextField();
         reservationDateField = new TextField();
         // Buttons
@@ -99,12 +101,12 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         TPRCodeColumn.setPrefWidth(130);
 
         TableColumn<TrainingProgramReservation, Integer> userCountColumn = new TableColumn<>("Κωδικός Αθλητή");
-        userCountColumn.setCellValueFactory(new PropertyValueFactory<>("athlete.getUserCount()"));
+        userCountColumn.setCellValueFactory(new PropertyValueFactory<>("userCount"));
         reservationTableView.getColumns().add(userCountColumn);
         userCountColumn.setPrefWidth(130);
 
         TableColumn<TrainingProgramReservation, Integer> TPCountColumn = new TableColumn<>("Κωδικός Προγράμματος Προπόνησης");
-        TPCountColumn.setCellValueFactory(new PropertyValueFactory<>("Subscription.getTrainingProgram().getTPCount()"));
+        TPCountColumn.setCellValueFactory(new PropertyValueFactory<>("TPCount"));
         reservationTableView.getColumns().add(TPCountColumn);
         TPCountColumn.setPrefWidth(130);
 
@@ -124,9 +126,9 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
     @Override
     public void handle(MouseEvent event) {
 
-        TrainingProgram selectedTrainingProgram=null;
+    	boolean isValid = false;
         Athlete selectedAthlete = null;
-        Enrollment selectedEnrollment = null;
+        Subscription selectedSubscription = null;
         if (event.getSource() == backBtn) {
             App.primaryStage.setTitle("Διαχείριση Αθλητικών Ακαδημιών");
             App.primaryStage.setScene(App.mainScene);
@@ -135,114 +137,110 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         // Get values from fields, create new Athlete (based on these values) add it to athleteList, sync the athleteList with the TableView, clear the fields
         if (event.getSource() == newReservationBtn) {
 
-            try {
-                int userCount = Integer.parseInt(userCountField.getText());
-                // Validate that the number is one of the valid numbers from athleteList
-                boolean isValid = false;
-                for (Athlete athlete : athleteList) {
-                    if (athlete.getUserCount() == userCount) {
-                        isValid = true;
-                        selectedAthlete = athlete;
-                        break;
-                    }
-                }
-                //subCode = userCount + "_" + TPCount + "_" + "<"+ subCount+ ">";
-            } catch (NumberFormatException e) {
-                Alert alertType = new Alert(Alert.AlertType.ERROR);
-                alertType.setTitle("Μη έγκυρη εισαγωγή");
-                alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
-                alertType.show();
-            }
-
-
-            try {
-
-                boolean isValidEnrollment = false;
-                for (Enrollment enrollment : enrollmentList) {
-                    if (enrollment.getUserCount() == selectedAthlete.getUserCount()) {
-                        isValidEnrollment = true;
-                        selectedEnrollment = enrollment;
-                        break;
-                    }
-                }
-
-                if (!isValidEnrollment) {
-                    Alert alertType = new Alert(Alert.AlertType.ERROR);
-                    alertType.setTitle("Σφάλμα");
-                    alertType.setContentText("Δεν βρέθηκε έγκυρη εγγραφή για τον επιλεγμένο αθλητή.");
-                    alertType.show();
-
-                    return;
-                }
-
-            }catch (NumberFormatException e) {
-                Alert alertType = new Alert(Alert.AlertType.ERROR);
-                alertType.setTitle("Μη έγκυρη εισαγωγή");
-                alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
-                alertType.show();
-                return;
+        	try {
+	        	   int userCount = Integer.parseInt(userCountField.getText());                             
+	        	   // Validate that the number is one of the valid numbers from athleteList
+	               for (Athlete athlete : athleteList) {
+	                   if (athlete.getUserCount() == userCount) { // Assuming getUserCount() returns the count for the athlete
+	                        isValid = true;
+	                        selectedAthlete = athlete;
+	                        break;
+	                    }
+	               }  
+		           if (!isValid) { 
+		                Alert alertType = new Alert(Alert.AlertType.ERROR);
+		                alertType.setTitle("Μη Έγκυρη Τιμή");
+	                    alertType.setContentText(" Εισάγετε έναν έγκυρο κωδικό αθλητή.");
+		                alertType.show();  
+		    
+		           }    
+        		} catch (NumberFormatException e) {
+	               Alert alertType = new Alert(Alert.AlertType.ERROR);
+	               alertType.setTitle("Μη έγκυρη εισαγωγή");
+	               alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
+	               alertType.show();
+	         
+        		}
+        
+        		if (isValid==true) {
+        			boolean isValidSubscription = false;
+	        		for (Subscription subscription : subscriptionList) {
+	        			if (subscription.getUserCount() == selectedAthlete.getUserCount()) {
+	        				isValidSubscription = true;
+	        				selectedSubscription = subscription;
+	        				break;
+	                    
+	        			}
+	        		}
+	
+	        		if (!isValidSubscription) {
+	        			Alert alertType = new Alert(Alert.AlertType.ERROR);
+	        			alertType.setTitle("Σφάλμα");
+	        			alertType.setContentText("Δεν βρέθηκε συνδρομή για τον επιλεγμένο αθλητή.");
+	        			alertType.show();
+	        		}	
+        		}
+        		
+        			
+        		try {
+            	int TPCount=Integer.parseInt(TPCountField.getText());
+            	 // Validate that the number is one of the valid numbers from athleteList
+	               isValid = false;
+	               for (Subscription subscription : subscriptionList) {
+	                   if (subscription.getTrainingProgram().getTPCount() == TPCount) { // Assuming getUserCount() returns the count for the athlete
+	                        isValid = true;
+	                        break;
+	                    }
+	               }  
+		           if (!isValid) { 
+		                Alert alertType = new Alert(Alert.AlertType.ERROR);
+		                alertType.setTitle("Μη Έγκυρη Τιμή");
+	                    alertType.setContentText(" Εισάγετε έναν έγκυρο κωδικό προγράμματος προπόνησης.");
+		                alertType.show();  
+		           }     
+        		} catch (NumberFormatException e) {
+	               Alert alertType = new Alert(Alert.AlertType.ERROR);
+	               alertType.setTitle("Μη έγκυρη εισαγωγή");
+	               alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
+	               alertType.show();
+        		}
 
             try {
                 String date = reservationDateField.getText();
                 if (!(isValidDateFormat(date))) {
                     throw new IllegalArgumentException("Εισάγετε την ημερομηνία στη σωστή μορφή");
                 }
-
-
             } catch (NumberFormatException e) {
                 Alert alertType = new Alert(Alert.AlertType.ERROR);
                 alertType.setTitle("Μη έγκυρη εισαγωγή");
                 alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
                 alertType.show();
             }
-
-
-
-        }
-
+        }    
+    
+        
+	    if (event.getSource() == cancelReservationBtn) {
+	        deleteTrainingProgramReservation(TPCountField.getText());
+	
+	     }
+	        
+	     // Get Selected reservation from TableView, get the values from the selection and set them to the fields
+	     if (event.getSource() == reservationTableView) {
+	          TrainingProgramReservation selectedReservation = reservationTableView.getSelectionModel().getSelectedItem();
+		     if (selectedReservation != null) {
+		          userCountField.setText(String.valueOf(selectedReservation.athlete.getUserCount()));
+		          TPRCode = String.valueOf(selectedReservation.getTPRCode());
+		          TPCountField.setText(String.valueOf(selectedReservation.getTrainingProgram().getTPCount()));
+		
+		      }
+	   }
+	   tableSync();
+	   clearTextFields();
+	    
+	    
     }
-
-
-        if (event.getSource() == cancelReservationBtn) {
-            deleteTrainingProgramReservation(TPCountField.getText());
-
-        }
-
-        // Get Selected reservation from TableView, get the values from the selection and set them to the fields
-        if (event.getSource() == reservationTableView) {
-            TrainingProgramReservation selectedReservation = reservationTableView.getSelectionModel().getSelectedItem();
-            if (selectedReservation != null) {
-                // userCountField.setText(String.valueOf(selectedReservation.athlete.getUserCount()));
-                TPRCode = String.valueOf(selectedReservation.getTPRCode());
-                // TPCountField.setText(String.valueOf(selectedReservation.getTrainingProgram().getTPCount()));
-
-            }
-
-
-        }
-
-        tableSync();
-        // clearTextFields();
-    }
-
-
-    // sync reservationList objects with objects in TableView
-    public void tableSync() {
-        List<TrainingProgramReservation> items = reservationTableView.getItems();
-        items.clear();
-        for (Object res : reservationList) {
-            if (res instanceof TrainingProgramReservation) {
-                items.add((TrainingProgramReservation) res);
-            }
-        }
-    }
-
-
-    public void createTrainingProgramReservation(String TPRCode, Athlete selectedAthlete, TrainingProgram selectedTrainingProgram, String dateString) {
-        TrainingProgramReservation trainingProgramReservation = new TrainingProgramReservation(TPRCode, selectedAthlete, selectedTrainingProgram, dateString);
-        reservationList.add(trainingProgramReservation);
-    }
-
+    
+    
     public static boolean isValidDateFormat(String dateStr) {
         // Check if the string has exactly 8 characters
         if (dateStr.length() != 8) {
@@ -276,7 +274,24 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 
         return true;
     }
+    
 
+    // sync reservationList objects with objects in TableView
+    public void tableSync() {
+        List<TrainingProgramReservation> items = reservationTableView.getItems();
+        items.clear();
+        for (Object res : reservationList) {
+            if (res instanceof TrainingProgramReservation) {
+                items.add((TrainingProgramReservation) res);
+            }
+        }
+    }
+
+    public void createTrainingProgramReservation(String TPRCode, Athlete selectedAthlete, TrainingProgram selectedTrainingProgram, String dateString) {
+        TrainingProgramReservation trainingProgramReservation = new TrainingProgramReservation(TPRCode, selectedAthlete, selectedTrainingProgram, dateString);
+        reservationList.add(trainingProgramReservation);
+    }
+    
     private void deleteTrainingProgramReservation(String TPRCode) {
         for (int i = 0; i < reservationList.size(); i++) {
             if (reservationList.get(i).getTPRCode().equals(TPRCode)) {
@@ -284,12 +299,16 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
                 break;
             }
         }
-
+    }
+    
+    public void clearTextFields() {
+        userCountField.clear();
+        reservationDateField.clear();
+        TPCountField.clear();
+       
     }
 
-
-
-
-
-
-}
+}    
+    
+    
+    
