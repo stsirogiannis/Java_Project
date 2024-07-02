@@ -4,14 +4,14 @@ package gr.unipi.core;
 
 public class Enrollment implements Pricelist {
 	private int userCount;
-	private Athlete selectedAthlete;
+	private Athlete athlete;
 	private String enrollmentDate;
 	private double enrollCost;
 	private double discount;
 
-	public Enrollment(int userCount, Athlete selectedAthlete, String enrollmentDate, double enrollCost, double discount) {
+	public Enrollment(int userCount, Athlete athlete, String enrollmentDate, double enrollCost, double discount) {
 		this.userCount = userCount;
-		this.selectedAthlete = selectedAthlete;
+		this.athlete = athlete;
 		this.enrollmentDate = enrollmentDate;
 		this.enrollCost = enrollCost;
 		this.discount = discount;
@@ -25,12 +25,12 @@ public class Enrollment implements Pricelist {
 		this.userCount = userCount;
 	}
 
-	public Athlete getSelectedAthlete() {
-		return selectedAthlete;
+	public Athlete getAthlete() {
+		return athlete;
 	}
 
-	public void setSelectedAthlete(Athlete selectedAthlete) {
-		this.selectedAthlete = selectedAthlete;
+	public void setAthlete(Athlete athlete) {
+		this.athlete = athlete;
 	}
 
 	public String getEnrollmentDate() {
