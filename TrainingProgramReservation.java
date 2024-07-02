@@ -6,16 +6,16 @@ public class TrainingProgramReservation {
 	
 			//δηλωση των πεδιων της κλασης ως private
 	private String TPRCode;  //κωδικος trainingProgramReservation
-	public Athlete athlete;        
-	private TrainingProgram trainingProgram;       
-	private String dateString;     
+	public Athlete selectedAthlete;        
+	private TrainingProgram selectedTrainingProgram;       
+	private String date;     
 	
 	//ορισμος constructor με παραμετρους τα πεδια της κλασης 
-	public TrainingProgramReservation (String TPRCode, Athlete athlete, TrainingProgram trainingProgram, String dateString){
+	public TrainingProgramReservation (String TPRCode, Athlete selectedAthlete, TrainingProgram selectedTrainingProgram, String date){
 		this.setTPRCode(TPRCode);
-		this.setAthlete(athlete);
-		this.setTrainingProgram(trainingProgram);
-		this.setDateString(dateString);
+		this.setSelectedAthlete(selectedAthlete);
+		this.setSelectedTrainingProgram(selectedTrainingProgram);
+		this.setDate(date);
 	}
 	
 	//ορισμος μεθοδων getters και setters για τη θεση και την ανακτηση των τιμων της
@@ -27,31 +27,38 @@ public class TrainingProgramReservation {
 	}
 	
 	
-	public void setAthlete(Athlete athlete) {
-		this.athlete=athlete;
+	public void setSelectedAthlete(Athlete selectedAthlete) {
+		this.selectedAthlete=selectedAthlete;
 	}
-	public Athlete getAthlete() {
-		return this.athlete;
-	}
-	
-	
-	public void setTrainingProgram(TrainingProgram trainingProgram) {
-		this.trainingProgram=trainingProgram;
-	}
-	public TrainingProgram getTrainingProgram() {
-		return this.trainingProgram;
+	public Athlete getSelectedAthlete() {
+		return this.selectedAthlete;
 	}
 	
 	
-	public void setDateString(String dateString) {
-		this.dateString=dateString;
+	public void setSelectedTrainingProgram(TrainingProgram selectedTrainingProgram) {
+		this.selectedTrainingProgram=selectedTrainingProgram;
 	}
-	public String getDateString() {
-		return this.dateString;
+	public TrainingProgram getSelectedTrainingProgram() {
+		return this.selectedTrainingProgram;
+	}
+	
+	
+	public void setDate(String date) {
+		this.date=date;
+	}
+	public String getDate() {
+		return this.date;
 	}
 
 
+	 // New getters for userCount and TPCount
+    public int getUserCount() {
+        return selectedAthlete.getUserCount();
+    }
 
+    public int getTPCount() {
+        return Subscription.getSelectedTrainingProgram().getTPCount();
+    }
 
 
 
