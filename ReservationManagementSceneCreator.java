@@ -54,7 +54,6 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
         		                        + "\n"+ "(yyyyMMdd)");
         // Fields
         TPCountField = new TextField();
-        // TPCountField.setEditable(false);
         userCountField = new TextField();
         reservationDateField = new TextField();
         // Buttons
@@ -240,9 +239,9 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 	     if (event.getSource() == reservationTableView) {
 	          TrainingProgramReservation selectedReservation = reservationTableView.getSelectionModel().getSelectedItem();
 		     if (selectedReservation != null) {
-		          userCountField.setText(String.valueOf(selectedReservation.selectedAthlete.getUserCount()));
+		          userCountField.setText(String.valueOf(selectedReservation.athlete.getUserCount()));
 		          TPRCode = String.valueOf(selectedReservation.getTPRCode());
-		          TPCountField.setText(String.valueOf(selectedReservation.getSelectedTrainingProgram().getTPCount()));
+		          TPCountField.setText(String.valueOf(selectedReservation.getTrainingProgram().getTPCount()));
 		          reservationDateField.setText(String.valueOf(selectedReservation.getDate()));
 		      }
 	     }
