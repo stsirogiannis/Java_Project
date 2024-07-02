@@ -154,7 +154,7 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 		                alertType.show();  
 		    
 		           }    
-        		} catch (NumberFormatException e) {
+        	} catch (NumberFormatException e) {
 	               Alert alertType = new Alert(Alert.AlertType.ERROR);
 	               alertType.setTitle("Μη έγκυρη εισαγωγή");
 	               alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
@@ -162,7 +162,7 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 	         
         		}
         
-        		if (isValid==true) {
+        	if (isValid==true) {
         			boolean isValidSubscription = false;
 	        		for (Subscription subscription : subscriptionList) {
 	        			if (subscription.getUserCount() == selectedAthlete.getUserCount()) {
@@ -179,10 +179,10 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 	        			alertType.setContentText("Δεν βρέθηκε συνδρομή για τον επιλεγμένο αθλητή.");
 	        			alertType.show();
 	        		}	
-        		}
+        	}
         		
         			
-        		try {
+        	try {
             	int TPCount=Integer.parseInt(TPCountField.getText());
             	 // Validate that the number is one of the valid numbers from athleteList
 	               isValid = false;
@@ -198,12 +198,12 @@ public class ReservationManagementSceneCreator extends SceneCreator implements E
 	                    alertType.setContentText(" Εισάγετε έναν έγκυρο κωδικό προγράμματος προπόνησης.");
 		                alertType.show();  
 		           }     
-        		} catch (NumberFormatException e) {
+        	} catch (NumberFormatException e) {
 	               Alert alertType = new Alert(Alert.AlertType.ERROR);
 	               alertType.setTitle("Μη έγκυρη εισαγωγή");
 	               alertType.setContentText("Παρακαλώ εισάγετε έναν αριθμό. \nException message: " + e.getMessage());
 	               alertType.show();
-        		}
+        	}
 
             try {
                 String date = reservationDateField.getText();
