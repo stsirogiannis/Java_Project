@@ -6,15 +6,15 @@ public class TrainingProgramReservation {
 	
 			//δηλωση των πεδιων της κλασης ως private
 	private String TPRCode;  //κωδικος trainingProgramReservation
-	public Athlete selectedAthlete;        
-	private TrainingProgram selectedTrainingProgram;       
+	public Athlete athlete;        
+	private TrainingProgram trainingProgram;       
 	private String date;     
 	
 	//ορισμος constructor με παραμετρους τα πεδια της κλασης 
-	public TrainingProgramReservation (String TPRCode, Athlete selectedAthlete, TrainingProgram selectedTrainingProgram, String date){
+	public TrainingProgramReservation (String TPRCode, Athlete athlete, TrainingProgram trainingProgram, String date){
 		this.setTPRCode(TPRCode);
-		this.setSelectedAthlete(selectedAthlete);
-		this.setSelectedTrainingProgram(selectedTrainingProgram);
+		this.setAthlete(athlete);
+		this.setTrainingProgram(trainingProgram);
 		this.setDate(date);
 	}
 	
@@ -27,19 +27,19 @@ public class TrainingProgramReservation {
 	}
 	
 	
-	public void setSelectedAthlete(Athlete selectedAthlete) {
-		this.selectedAthlete=selectedAthlete;
+	public void setAthlete(Athlete athlete) {
+		this.athlete=athlete;
 	}
-	public Athlete getSelectedAthlete() {
-		return this.selectedAthlete;
+	public Athlete getAthlete() {
+		return this.athlete;
 	}
 	
 	
-	public void setSelectedTrainingProgram(TrainingProgram selectedTrainingProgram) {
-		this.selectedTrainingProgram=selectedTrainingProgram;
+	public void setTrainingProgram(TrainingProgram trainingProgram) {
+		this.trainingProgram=trainingProgram;
 	}
-	public TrainingProgram getSelectedTrainingProgram() {
-		return this.selectedTrainingProgram;
+	public TrainingProgram getTrainingProgram() {
+		return this.trainingProgram;
 	}
 	
 	
@@ -53,11 +53,11 @@ public class TrainingProgramReservation {
 
 	 // New getters for userCount and TPCount
     public int getUserCount() {
-        return selectedAthlete.getUserCount();
+        return athlete.getUserCount();
     }
 
     public int getTPCount() {
-        return Subscription.getSelectedTrainingProgram().getTPCount();
+        return Subscription.getTrainingProgram().getTPCount();
     }
 
 
