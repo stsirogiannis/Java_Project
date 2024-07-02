@@ -5,12 +5,12 @@ public class Subscription implements Pricelist{
 
 		private String subCode;  
 		private Athlete athlete;   
-		private static TrainingProgram selectedTrainingProgram;
+		private static TrainingProgram trainingProgram;
 		private double monthlyCost;
-        public Subscription(String subCode, Athlete athlete, TrainingProgram selectedTrainingProgram, double monthlyCost){
+        public Subscription(String subCode, Athlete athlete, TrainingProgram trainingProgram, double monthlyCost){
 			this.setSubCode(subCode);
 			this.setAthlete(athlete);
-			this.setSelectedTrainingProgram(selectedTrainingProgram);
+			this.setTrainingProgram(trainingProgram);
 			this.setMonthlyCost (monthlyCost);
 		}
 		
@@ -28,12 +28,12 @@ public class Subscription implements Pricelist{
 			return this.athlete;
 		}
 		
-		public void setSelectedTrainingProgram(TrainingProgram selectedTrainingProgram) {
-			this.selectedTrainingProgram=selectedTrainingProgram;
+		public void setTrainingProgram(TrainingProgram trainingProgram) {
+			this.trainingProgram=trainingProgram;
 		}
 		
-		public static TrainingProgram getSelectedTrainingProgram() {
-			return selectedTrainingProgram;
+		public static TrainingProgram getTrainingProgram() {
+			return trainingProgram;
 		}
 		
 		public void setMonthlyCost(double monthlyCost) {
