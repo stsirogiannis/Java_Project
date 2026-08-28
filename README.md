@@ -3,6 +3,8 @@
 A JavaFX desktop application for managing a sports academy: athletes, coaches,
 training programs, subscriptions, reservations, and payments.
 
+- **Note:** The user-facing interface (menus, prompts, and messages) is in Greek.
+
 ## Features
 
 - **Athlete management** — register, update, delete athletes; track professional
