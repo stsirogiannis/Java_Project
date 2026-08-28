@@ -35,7 +35,7 @@ The code is split into two packages:
 - `gr.unipi.gui` — JavaFX scenes and event handling (`App`, `SceneCreator`
   and its subclasses, `SystemInfo`).
 
-See [DOCUMENTATION.md](DOCUMENTATION.md) for a full class-by-class breakdown,
+See [Documentation.md](Documentation.md) for a full class-by-class breakdown,
 business rules, and known limitations.
 
 ## Getting Started
