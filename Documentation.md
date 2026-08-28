@@ -165,46 +165,9 @@ All lists are shared across screens as `static` fields (e.g.
 `AthleteManagementSceneCreator.athleteList` is read by both the subscription
 and reservation screens), simulating a shared in-memory data store.
 
-## 5. Known Issues / Technical Debt
-
-These are worth fixing before extending the app further:
-
-1. **`Facility` constructor bug** — `Facility(String facilityName, int maxCapacity)`
-   calls `this.setFacilityName(this.facilityName)` instead of
-   `this.setFacilityName(facilityName)`, so `facilityName` is always `null`.
-2. **`Subscription.trainingProgram` is `static`** — it is shared across
-   _every_ `Subscription` instance instead of being per-object, so
-   `Subscription.getTrainingProgram()` only ever reflects the last program
-   set anywhere in the app. `TrainingProgramReservation.getTPCount()` relies
-   on this static value rather than its own `trainingProgram` field.
-3. **`sport` / `facility` / `coach` fields never populated in
-   `SubscriptionManagementSceneCreator`** — `createSport()`,
-   `createFacility()`, and `createCoach()` each construct a _local_ object
-   and add it to its list, but never assign it back to the class's `sport`,
-   `facility`, or `coach` instance fields. As a result, every
-   `TrainingProgram` is built with `null` for `sport`, `facility`, and
-   `coach` unless this is fixed.
-4. **Update-athlete professional flag bug** — in
-   `AthleteManagementSceneCreator`, the "new athlete" flow correctly checks
-   `.getText().equals("Ναι")`, but the "update athlete" flow checks
-   `.getText().equals("Yes")` (English), which never matches the Greek
-   radio button label "Ναι" — so `isProfessional` is always `false` after
-   an update.
-5. **Silent validation failures** — setters such as `Athlete.setExperience`,
-   `Facility.setMaxCapacity`, `Coach.setDegrees`, and
-   `TrainingProgram.setMinDuration` silently ignore invalid values instead
-   of throwing, so invalid data can be dropped without any signal outside
-   of the current GUI's manual pre-checks.
-6. **Domain class holding a UI control** — `TrainingProgram.dayComboBox` is
-   a JavaFX `ComboBox<String>`, coupling the model layer to the UI toolkit.
-7. **No persistence** — all data is lost on application exit; there is no
-   database or file-based storage layer.
-
-## 6. Possible Future Improvements
+## 5. Possible Future Improvements
 
 - Extract a data-access/service layer instead of manipulating `ArrayList`s
   directly inside GUI event handlers.
 - Add persistence (e.g., a lightweight embedded database or serialization).
 - Add unit tests for discount and pricing calculations.
-- Replace the `dayComboBox` field in `TrainingProgram` with a plain
-  `String`/enum, keeping `ComboBox` wiring inside the GUI layer only.
