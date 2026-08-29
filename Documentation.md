@@ -57,8 +57,6 @@ and a JavaFX `dayComboBox`. Includes a descriptive `toString()`.
 
 - **Business rule:** `minDuration` must be positive, or it is silently
   ignored.
-- **Note:** embedding a `ComboBox<String>` directly in a domain class mixes
-  UI state into the model layer — see [Known Issues](#5-known-issues--technical-debt).
 
 ### `TrainingProgramReservation`
 
@@ -90,9 +88,6 @@ One-time enrollment record for an athlete: `enrollmentDate`, `enrollCost`,
 
 A subscription record: `subCode`, `athlete`, `trainingProgram`,
 `monthlyCost`. `calculateTotalPrice()` returns `monthlyCost`.
-
-- **Note:** `trainingProgram` is declared `static` — see
-  [Known Issues](#5-known-issues--technical-debt).
 
 ### `Payment implements Pricelist`
 
@@ -156,10 +151,7 @@ Small utility exposing the running `java.version` and `javafx.version`.
 
 ## 4. Data Flow Summary
 
-Athlete registration ─▶ Enrollment (paid) ─▶ Subscription (requires enrollment)
-│
-▼
-TrainingProgramReservation (requires subscription-linked athlete + program)
+Athlete registration ─▶ Enrollment (paid) ─▶ Subscription (requires enrollment)─▶TrainingProgramReservation (requires subscription-linked athlete + program)
 
 All lists are shared across screens as `static` fields (e.g.
 `AthleteManagementSceneCreator.athleteList` is read by both the subscription
